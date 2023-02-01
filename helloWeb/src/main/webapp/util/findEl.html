@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>util/findEl.html</title>
+    <style>
+      div.outer {
+        background-color: rgb(153, 240, 255);
+        width: 505px;
+        height: 290px;
+      }
+      div.inner {
+        display: inline-block;
+        background-color: pink;
+        height: 30px;
+        width: 120px;
+        margin: 2px;
+        border: 1px solid yellow;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="list" class="outer"></div>
+    <input type="text" id="search" />
+    <button id="btn">제거하기</button>
+    <a id="time"></a>
+    <script>
+      let words = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi ratione quas, animi nihil aliquid laboriosam odio ut tempore! Doloremque, omnis! Distinctio quidem a similique aliquam quas tenetur sint ullam iure!`;
+      let items = words.split(" ");
+      items.forEach((word) => {
+        let div = document.createElement("div");
+        div.setAttribute("class", "inner");
+        div.innerText = word;
+        list.append(div);
+      });
+      document.querySelector("#btn").addEventListener("click", function () {
+        let content = search.value;
+        document.querySelectorAll(".inner").forEach((x) => {
+          if (x.innerText == content) {
+            x.remove();
+          }
+        });
+      });
+      let time = 5;
+      let sec = "";
+      let x = setInterval(() => {
+        sec = time % 60;
+        document.getElementById("time").innerText = sec + "초";
+        time--;
+        if (time < 0) {
+          clearInterval(time);
+          document.querySelector("#time").innerText = "시간초과";
+          btn.disabled = true;
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

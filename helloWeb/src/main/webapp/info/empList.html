@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <title>info/empList.html</title>
+    <style>
+    tr.delError{
+    background-color: pink;
+    }
+    a{
+    margin-left : 2px;
+    margin-right : 2px;
+    }
+    </style>
   </head>
   <body>
     <h3>사원등록</h3>
@@ -34,7 +43,8 @@
           <input id="delSelectedBtn" type="button" value="선택삭제" />
         </td>
       </table>
-    </form>
+    </form> 
+    
     <h3>사원리스트</h3>
     <table border="1">
       <thead>
@@ -51,6 +61,7 @@
       </thead>
       <tbody id="list"></tbody>
     </table>
+    <div id = "paging"></div>
     <script src="../js/empList.js"></script>
   </body>
 </html>

@@ -2,14 +2,19 @@
  * empList.js
  */
 //목록출력하기.
+let totalAry = []; // 전체목록 담아놓을 용도.
 fetch("../empListJson")  //아작스 호출.
 	.then((resolve) => resolve.json())   // 가져온 데이터를 제이슨으로 바꿔준다
 	.then((result) => {
 		//배열관련 메소드: forEach, map, filter, reduce 메소드.
-		result.forEach(function(item, idx, arry) {
+		localStorage.setItem('total', result.length); // web페이지에서 정보를 담아놓는 곳?
+		totalAry = result;
+		/*result.forEach(function(item, idx, arry) {
 			let tr = makeTr(item); //tr생성 후 반환.
 			list.append(tr);
-		});
+		});*/
+		showPages(15);
+		employeeList(15);
 	})
 	.catch((reject) => {
 		console.log(reject);
@@ -54,11 +59,24 @@ function makeTr(item) {  //매개값으로 받아오면 그 값을 가지고 tr�
 	td = document.createElement("td");
 	let chk = document.createElement('input');
 	chk.setAttribute('type', 'checkbox');
-	
+	chk.addEventListener('change', countCheck);
+
 	td.append(chk);
 	tr.append(td);
 
 	return tr;
+}
+// 전체선택 체크박스 - 개별체크박스 동기화.
+function countCheck() {
+	// 체크박스 수와 체크된 박스 수 비교.
+	let check = document.querySelector('thead').children[0].children[7].children[0];
+	let count = document.querySelectorAll('tbody input[type = "checkbox"]').length;
+	let i = document.querySelectorAll('tbody input[type = "checkbox"]:checked').length;
+	if (count == i) {
+		check.checked = true;
+	} else {
+		check.checked = false;
+	}
 }
 
 // 삭제버튼 이벤트 콜백함수.
@@ -199,27 +217,101 @@ function allCheckChange() {
 }
 
 //선택삭제 처리.
-function deletedCheckedFnc() {
-	document.querySelectorAll('tbody input[type="checkbox"]:checked').forEach(chk => {
-		//삭제처리 같은 기능을 구현해보세요.
-		chk.addEventListener("click", selectDeleteRowFunc(chk));   // click이벤트가 실행되면 deleteRowFunc이 실행.
-	});
+// fetch API => 비동기방식처리. => 동기식 처리.(async, await) 
+async function deletedCheckedFnc() {
+	let ids = [];
+	let chks = document.querySelectorAll('#list input[type="checkbox"]:checked');
+
+	for (let i = 0; i < chks.length; i++) {
+		let id = chks[i].parentElement.parentElement.firstChild.innerText;
+		let resp = await fetch("../empListJson?del_id=" + id, {
+			method: "DELETE",
+		})
+		let json = await resp.json();
+		console.log(json);
+		ids.push(json);
+	}
+	/*.then((resolve) => resolve.json())
+	.then((result) => {
+		if (result.retCode == "Success") {
+			//chk.parentElement.parentElement.remove();
+			ids.push(id);
+		} else if (result.retCode == "Fail") {
+			console.log('error: ' + id);
+		}
+	})
+	.catch((reject) => console.log(reject));
 }
+)*/
+	console.log('ids>>> ', ids);
+
+	processAfterFetch(ids);   //자동새로고침  {id:101,retCode:Success},{id:102,retCode:Fail},...
+}
+
+//화면처리.
+function processAfterFetch(ary = []) {
+	let targetTr = document.querySelectorAll('#list tr');
+	console.log(targetTr, 'vs', ary);
+	//tr의 첫번째 자식(td)의 id(innerText)와 받아오는 오는값(ary)의 id와 비교해서 맞으면 삭제.
+	targetTr.forEach(tr => {
+		for (let i = 0; i < ary.length; i++) {
+			if (tr.children[0].innerText == ary[i].id) {
+				if (ary[i].retCode == "Success") {
+					tr.remove(); //Success조건 하에 삭제					
+				} else {
+					tr.setAttribute('class', 'delError');
+				}
+			}
+		}
+	})
+}
+/*document.querySelectorAll('tbody input[type="checkbox"]:checked').forEach(chk => {
+//삭제처리 같은 기능을 구현해보세요.
+chk.addEventListener("click", selectDeleteRowFunc(chk));   // click이벤트가 실행되면 deleteRowFunc이 실행.*/
+
 //선택삭제 이벤트
-function selectDeleteRowFunc(chk) {
+/*function selectDeleteRowFunc(chk) {
 	let id = chk.parentElement.parentElement.firstChild.innerText;
 	fetch("../empListJson?del_id=" + id, {
 		method: "DELETE",
-	})
+		)
 		.then((resolve) => resolve.json())
 		.then((result) => {
 			if (result.retCode == "Success") {
 				chk.parentElement.parentElement.remove();
-			} else if (result.retCode == "Fail") {
+				 else if (result.retCode == "Fail") {
 				console.log('error: ' + id);
-			}
-		})
+				
+			)
 		.catch((reject) => console.log(reject));
+		*/
+// 페이지 목록()
+function showPages(curPage = 15) {
+	let endPage = Math.ceil(curPage / 10) * 10;   //현재페이지가 15라면 15/10=1.5 의 올림(ceil)*10 = 20
+	let startPage = endPage - 9;   //11
+	let realEnd = Math.ceil(255 / 10);
+	endPage = endPage > realEnd ? realEnd : endPage;
+	let paging = document.getElementById("paging");
+	for (let i = startPage; i <= endPage; i++) {
+		let aTag = document.createElement("a");
+		aTag.href = "index.html";
+		aTag.innerText = i;
+		paging.append(aTag);
+	}
+
 }
 
-function 
+// 사원 목록()
+function employeeList(curPage = 5) {
+	let end = curPage * 10;
+	let start = end - 9;
+	let newList = totalAry.filter((emp, idx) => {
+		return (idx+1) >= start && idx < end;
+	})
+	let lst = document.getElementById('list');
+	newList.forEach(emp => {
+		let tr = makeTr(emp);
+		lst.append(tr);
+	})
+}
+
