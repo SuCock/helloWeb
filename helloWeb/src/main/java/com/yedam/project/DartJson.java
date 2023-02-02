@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.yedam.emp.EmpDAO;
 import com.yedam.emp.EmpVO;
 
-public class DartJson {
-
 	@WebServlet("/dartMemJson")
-	public class dartMemJsonServelet extends HttpServlet {
+	public class DartJson extends HttpServlet {
 		@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			req.setCharacterEncoding("utf-8");
@@ -51,10 +49,13 @@ public class DartJson {
 				// [{"id": 100, "firstName": "Hong", "email": "Hong@email.com"...},{},{}]
 				String json = "[";
 				for (int i = 0; i < list.size(); i++) {
-					json += "{\"id\":" + list.get(i).getMemId() + ", \"password\":\"" + list.get(i).getMemPass() + "\""
-							+ ",\"name\":\"" + list.get(i).getMemName() + "\"" + ",\"address\":\"" + list.get(i).getMemAddr()
-							+ "\"" + ",\"telNumber\":\"" + list.get(i).getMemTel().substring(0, 10) + "\"" + ",\"point\":\""
-							+ list.get(i).getMemPoint() + "\"" + "}";
+					json += "{\"id\":\"" + list.get(i).getMemId() +"\""
+							+ ",\"password\":\"" + list.get(i).getMemPass() + "\""
+							+ ",\"name\":\"" + list.get(i).getMemName() + "\"" 
+							+ ",\"address\":\"" + list.get(i).getMemAddr()+ "\"" 
+							+ ",\"telNumber\":\"" + list.get(i).getMemTel() + "\"" 
+							+ ",\"point\":\""+ list.get(i).getMemPoint() + "\"" 
+							+ "}";
 					if (i + 1 != list.size()) {
 						json += ",";
 					}
@@ -64,5 +65,5 @@ public class DartJson {
 				resp.getWriter().print(json);
 			}
 		}
-	}
+	
 

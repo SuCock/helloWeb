@@ -13,15 +13,17 @@ fetch("../empListJson")  //아작스 호출.
 			let tr = makeTr(item); //tr생성 후 반환.
 			list.append(tr);
 		});*/
-		showPages(15);
-		employeeList(15);
+		//showPages(5);
+		//employeeList(5);
+		document.querySelector('#pageCnt').dispatchEvent(chgEvent);   // 이벤트를 따로 선언해야한다.
 	})
 	.catch((reject) => {
 		console.log(reject);
 	});
 //저장버튼 submit 이벤트 등록.
 document.querySelector('form[name="empForm"]').addEventListener('submit', addMemberFnc);  // 폼 태그중에서 이름이 empForm인것을 가져오겠습니다.
-
+//select 태그의 change 이벤트 등록.
+let chgEvent = new Event('change');  //새로고침을 하면 앞에 건수와 상관없이 selected되어있는 건수를 보여준다.
 //전체선택 체크박스.
 document.querySelector('thead input[type="checkbox"]').addEventListener('change', allCheckChange);
 //선택삭제 버튼.
@@ -287,26 +289,70 @@ chk.addEventListener("click", selectDeleteRowFunc(chk));   // click이벤트가 
 		*/
 // 페이지 목록()
 function showPages(curPage = 15) {
+	document.querySelectorAll('#paging a').forEach((item) => item.remove());  //item = paging.a(페이징의 하위요소 a전부)	
+	//전체건수
+	let pageCnt = parseInt(localStorage.getItem('pageCnt')); // 건수
+	let totalCnt = parseInt(localStorage.getItem('total')); // 내가가지고 있는 데이터만큼 보여준다
 	let endPage = Math.ceil(curPage / 10) * 10;   //현재페이지가 15라면 15/10=1.5 의 올림(ceil)*10 = 20
 	let startPage = endPage - 9;   //11
-	let realEnd = Math.ceil(255 / 10);
+	let realEnd = Math.ceil(totalCnt / pageCnt);   // 페이징 수/ 건수에 맞게 보여준다.
+	let prev, next;  //이전 페이지 목록이 있는지, 다음 페이지 목록이 있는지
+
 	endPage = endPage > realEnd ? realEnd : endPage;
+	prev = startPage > 1 ? true : false;
+	next = endPage < realEnd ? true : false;   //진짜 마지막 페이지로 왔을 때 >>를 붙이지 않기위해.
 	let paging = document.getElementById("paging");
-	for (let i = startPage; i <= endPage; i++) {
+	// prev & next의 여부
+	if (prev) {
 		let aTag = document.createElement("a");
-		aTag.href = "index.html";
-		aTag.innerText = i;
+		aTag.addEventListener('click', showListPages);
+		aTag.href = '#';
+		aTag.page = startPage - 1;
+		aTag.innerHTML = '&laquo;'//startPage - 1;
 		paging.append(aTag);
 	}
-
+	for (let i = startPage; i <= endPage; i++) {
+		let aTag = document.createElement("a");
+		aTag.addEventListener('click', showListPages);
+		aTag.href = '#';
+		aTag.innerText = i;
+		aTag.page = i; // innerText 속성이 페이지값을 활용.
+		if (i == curPage) {
+			aTag.className = 'active' // aTag.setAttribute('class', 'active');
+		}
+		paging.append(aTag);
+	}
+	if (next) {
+		let aTag = document.createElement("a");
+		aTag.addEventListener('click', showListPages);
+		aTag.href = '#';
+		aTag.page = endPage + 1;
+		aTag.innerHTML = '&raquo;'//endPage + 1;
+		paging.append(aTag);
+	}
 }
-
+// 페이지 클릭하면 해당되는 페이지 목록, 사원 목록을 보여주기 위한 함수.
+function showListPages(e) {
+	console.log(e.target.innerText);
+	let page = e.target.page;
+	showPages(page);
+	employeeList(page);
+}
+// 건수별 change 이벤트 등록.
+let pageCnt = document.getElementById("pageCnt")
+pageCnt.addEventListener("change", (e) => {
+	localStorage.setItem('pageCnt', pageCnt.value)
+	showPages(1); // 건수가 바뀌면 첫번째 페이지로 돌아가도록.
+	employeeList(1); // 건수가 바뀌면 첫번째 목록이 보이도록.
+})
 // 사원 목록()
 function employeeList(curPage = 5) {
-	let end = curPage * 10;
-	let start = end - 9;
+	document.querySelectorAll('#list tr').forEach((item) => item.remove());
+	let pageCnt = parseInt(localStorage.getItem('pageCnt'));
+	let end = curPage * pageCnt;   //보여주는 목록
+	let start = end - (pageCnt - 1);
 	let newList = totalAry.filter((emp, idx) => {
-		return (idx+1) >= start && idx < end;
+		return (idx + 1) >= start && idx < end;
 	})
 	let lst = document.getElementById('list');
 	newList.forEach(emp => {

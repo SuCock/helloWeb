@@ -1,0 +1,16 @@
+package co.yedam.emp.vo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Data
+public class EmpVO {
+	private int employeedId;
+	private String firstName;
+	private String lastName;
+	
+}
