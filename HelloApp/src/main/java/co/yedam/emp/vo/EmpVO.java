@@ -12,5 +12,7 @@ public class EmpVO {
 	private int employeedId;
 	private String firstName;
 	private String lastName;
-	
+	private String email;
+	private String jobId;
+	private String hireDate;
 }
