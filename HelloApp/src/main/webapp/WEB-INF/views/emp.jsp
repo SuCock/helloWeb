@@ -1,27 +1,47 @@
+<%@page import="java.util.Map.Entry"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="../includes/header.jsp"></jsp:include>
+	<%
+	Map<String, String> list = (Map<String, String>) request.getAttribute("jobList"); // object -> (EmpVO) 타입으로 반환.
+	%>
 	<form name = "myFrm" action = "employee.do" method="post">  <!-- employee.do에서 받아준다. EmpControl로 요청 -->
-		<label>사원번호:</label>
-		<input type ="number" name="eid"><br>
-		<label>LastName:</label>
-		<input type ="text" name="last_name"><br>
-		<label>이메일:</label>
-		<input type ="email" name="email"><br>
-		<label>입사일자:</label>
-		<input type ="date" name="hire_date"><br>
-		<label>직무:</label>
-		<select name="job">
-			<option value="IT_PROG">개발자</option>
-			<option value="SA_REP" selected>영업사원</option>
-			<option value="SA_MAN">영업팀장</option>
-		</select>
-		<br>
+	<table class = "table">
+	<tr>
+		<th>사원번호:</th>
+		<td><input type ="number" name="eid"></td>
+		</tr>
+		<tr>
+		<th>LastName:</th>
+		<td><input type ="text" name="last_name"></td>
+		</tr>
+		<tr>
+		<th>이메일:</th>
+		<td><input type ="email" name="email"></td>
+		</tr>
+		<tr>
+		<th>입사일자:</th>
+		<td><input type ="date" name="hire_date"></td>
+		</tr>
+		<tr>
+		<th>직무:</th>
+		<td><select name="job">
+		<%for (Entry<String, String> ent : list.entrySet()){
+			%>
+			<option value="<%=ent.getKey() %>"><%=ent.getValue() %></option>
+		<% }%>
+		</select></td>
+		</tr>
+		<tr>
+		<td colspan ='2' align = "center"> 
 		<input type = "submit" value="전송">
 		<input type = "button" value="조회" onclick="empGetFnc()">
-		<input type = "button" value="다음" onclick="daumGetFnc()">
-		
-		<a href = "../result/empList.jsp">조회.</a>
+		<input type = "button" value="다음" onclick="daumGetFnc()">	
+		<a href = "../result/empList.jsp">조회.</a></td>
+		</tr>
+	</table>
 	</form>
 	<script>
 		console.log(document.forms.myFrm);

@@ -231,7 +231,6 @@ async function deletedCheckedFnc() {
 		})
 		let json = await resp.json();
 		console.log(json);
-		ids.push(json);
 	}
 	/*.then((resolve) => resolve.json())
 	.then((result) => {

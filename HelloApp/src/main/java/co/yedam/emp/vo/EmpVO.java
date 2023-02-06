@@ -9,7 +9,7 @@ import lombok.ToString;
 
 @Data
 public class EmpVO {
-	private int employeedId;
+	private int employeeId;
 	private String firstName;
 	private String lastName;
 	private String email;

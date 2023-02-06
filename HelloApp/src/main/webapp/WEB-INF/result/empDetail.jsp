@@ -13,8 +13,12 @@ String id = (String) request.getAttribute("loginId");
 <table class="table">
 	<tr>
 		<th>사원번호</th>
-		<td><%=emp.getEmployeedId()%>
+		<td><%=emp.getEmployeeId()%>
 		</td>
+	</tr>
+	<tr>
+		<th>FirstName</th>
+		<td><%=emp.getFirstName()%></td>
 	</tr>
 	<tr>
 		<th>LastName</th>
@@ -35,8 +39,8 @@ String id = (String) request.getAttribute("loginId");
 	</tr>
 	<tr>
 		<td colspan='2' align="center">
-			<button class="btn btn-primary" onclick="location.href='empModForm.do?id=<%=emp.getEmployeedId()%>'">수정</button>
-			<button class="btn btn-warning">삭제</button></td>
+			<button class="btn btn-primary" onclick="location.href='empModForm.do?id=<%=emp.getEmployeeId()%>'">수정</button>
+			<button class="btn btn-warning" onclick="location.href='empRemove.do?id=<%=emp.getEmployeeId()%>'">삭제</button></td><!-- empRemove.do?id=?  removeEmp(Int id) id를 받아서 삭제하기위한 컨트롤 등록 서비스와 DAO에도 삭제메소드 추가 -->
 	</tr>
 
 </table>

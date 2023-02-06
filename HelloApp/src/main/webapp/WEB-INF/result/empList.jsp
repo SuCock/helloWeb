@@ -6,8 +6,7 @@
 	pageEncoding="UTF-8"%>
 <jsp:include page="../includes/header.jsp"></jsp:include>
 <%
-EmpService service = new EmpServiceImpl();
-List<EmpVO> list = service.empList();
+List<EmpVO> list = (List<EmpVO>)request.getAttribute("empList");
 %>
 <h3>사원목록(EmpControl.do의 결과 페이지.)</h3>
 <table class = "table">
@@ -26,7 +25,7 @@ List<EmpVO> list = service.empList();
 		for (EmpVO emp : list) {
 		%>
 		<tr>
-			<td><a href="empDetail.do?eid=<%=emp.getEmployeedId()%>"><%=emp.getEmployeedId()%></a></td>
+			<td><a href="empDetail.do?eid=<%=emp.getEmployeeId()%>"><%=emp.getEmployeeId()%></a></td>
 			<td><%=emp.getLastName()%></td>
 			<td><%=emp.getEmail()%></td>
 			<td><%=emp.getJobId()%></td>

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
 import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 import co.yedam.emp.vo.EmpVO;
 
 public class EmpDetailControl implements Command {
@@ -19,7 +20,7 @@ public class EmpDetailControl implements Command {
 		//상세조회: service등록 -> serviceImpl -> dao에서 처리
 		String id = req.getParameter("eid");
 		
-		EmpService service = new EmpServiceImpl();
+		EmpService service = new EmpServiceMybatis(); // new EmpServiceImpl();
 		EmpVO emp = service.getEmp(Integer.parseInt(id));
 		
 		req.setAttribute("searchVO", emp);

@@ -46,7 +46,7 @@ public class EmpControl implements Command {
 			String mail = req.getParameter("email");
 
 			EmpVO emp = new EmpVO();
-			emp.setEmployeedId(Integer.parseInt(eid));
+			emp.setEmployeeId(Integer.parseInt(eid));
 			emp.setLastName(lName);
 			emp.setEmail(mail);
 			emp.setHireDate(hire);
