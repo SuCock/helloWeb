@@ -18,8 +18,13 @@ import co.yedam.emp.command.EmpList;
 import co.yedam.emp.command.EmpModFromControl;
 import co.yedam.emp.command.EmpModifyContorol;
 import co.yedam.emp.command.EmpRemoveControl;
-import co.yedam.emp.command.LoginControl;
 import co.yedam.emp.command.ServiceControl;
+import co.yedam.member.command.LoginControl;
+import co.yedam.member.command.LoginFormControl;
+import co.yedam.member.command.LogoutControl;
+import co.yedam.member.command.MemberListControl;
+import co.yedam.member.command.SignOnControl;
+import co.yedam.member.command.SignOnFormControl;
 
 @WebServlet("*.do")  // 불러오는 url의 키값이므로 중복이 있으면 충돌이 난다.
 public class FrontController extends HttpServlet{
@@ -36,7 +41,6 @@ public class FrontController extends HttpServlet{
 		//첫페이지 지정.
 		map.put("/main.do", new MainControl());
 		map.put("/service.do", new ServiceControl());
-		map.put("/login.do", new LoginControl());
 		map.put("/errorPage.do", new ErrorPage());
 		// get : 목록출력(json)요청, post : 입력처리.
 		map.put("/employee.do", new EmpControl());
@@ -47,6 +51,15 @@ public class FrontController extends HttpServlet{
 		map.put("/empModForm.do", new EmpModFromControl()); //수정화면페이지.
 		map.put("/empModify.do", new EmpModifyContorol()); //수정처리페이지.
 		map.put("/empRemove.do", new EmpRemoveControl()); // 삭제처리페이지.
+		
+		// 회원관리메뉴
+		map.put("/loginForm.do", new LoginFormControl()); // 로그인호출.
+		map.put("/login.do", new LoginControl()); // 로그인처리.
+		map.put("/logout.do", new LogoutControl()); // 로그아웃처리.
+		map.put("/signOnForm.do", new SignOnFormControl()); // 회원가입화면.
+		map.put("/signOn.do", new SignOnControl()); // 회원가입처리.
+		map.put("/memberList.do", new MemberListControl()); // 회원목록.
+		
 	}
 	
 	@Override

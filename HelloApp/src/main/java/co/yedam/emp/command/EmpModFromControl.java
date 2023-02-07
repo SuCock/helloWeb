@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
 import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 import co.yedam.emp.vo.EmpVO;
 
 public class EmpModFromControl implements Command {
@@ -22,14 +23,15 @@ public class EmpModFromControl implements Command {
 		//url 파라미터 id
 		String id = req.getParameter("id");
 		
-		EmpService service = new EmpServiceImpl();
-		EmpVO emp = service.getEmp(Integer.parseInt(id));
+		EmpService service1 = new EmpServiceImpl();
+		//EmpService service = new EmpServiceMybatis();
+		EmpVO emp = service1.getEmp(Integer.parseInt(id));
 		
 		//id에 맞춰 db에서 관련 정보 가져오는 속성
 		req.setAttribute("searchVO", emp);
 		
 		//직무리스트 속성
-		Map<String, String> jobList = service.jobList();
+		Map<String, String> jobList = service1.jobList();
 		req.setAttribute("jobList", jobList);
 		
 		try {

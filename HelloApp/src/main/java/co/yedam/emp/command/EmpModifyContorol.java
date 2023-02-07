@@ -1,14 +1,12 @@
 package co.yedam.emp.command;
 
-import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
-import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 import co.yedam.emp.vo.EmpVO;
 
 public class EmpModifyContorol implements Command {
@@ -24,7 +22,7 @@ public class EmpModifyContorol implements Command {
 		String jb = req.getParameter("job");
 		String hi = req.getParameter("hire");
 		
-		EmpService service = new EmpServiceImpl();
+		EmpService service = new EmpServiceMybatis();
 		EmpVO emp = new EmpVO();
 		
 		emp.setEmployeeId(Integer.parseInt(id));

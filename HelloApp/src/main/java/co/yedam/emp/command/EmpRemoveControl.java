@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import co.yedam.common.Command;
 import co.yedam.emp.service.EmpService;
-import co.yedam.emp.service.EmpServiceImpl;
+import co.yedam.emp.service.EmpServiceMybatis;
 
 public class EmpRemoveControl implements Command {
 
@@ -15,7 +15,7 @@ public class EmpRemoveControl implements Command {
 	public void exec(HttpServletRequest req, HttpServletResponse resp) {
 		// TODO Auto-generated method stub
 		String id = req.getParameter("id");
-		EmpService service = new EmpServiceImpl();
+		EmpService service = new EmpServiceMybatis();
 		int r = service.removeEmp(Integer.parseInt(id));
 		
 		if(r>0) {
