@@ -8,4 +8,5 @@ public interface MemberService {
 	public MemberVO login(MemberVO member); 
 	public int addMember(MemberVO member);
 	public List<MemberVO> memberList();  //list형식으로 자료를 뱉겠다. 목록출력.
+	public MemberVO getMember(String id); // 회원정보조회용.
 }

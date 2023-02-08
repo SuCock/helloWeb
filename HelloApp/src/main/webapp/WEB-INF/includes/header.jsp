@@ -39,6 +39,8 @@
 					href="empForm.do">사원등록페이지</a> 
 					<a class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="logout.do">로그아웃</a>
+					<a class="list-group-item list-group-item-action list-group-item-light p-3"
+					href="myPageForm.do">마이페이지</a>
 					<%} else{%>
 					<a class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="loginForm.do">로그인</a>
@@ -48,8 +50,6 @@
 					 <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="memberList.do">회원목록</a> <a
-					class="list-group-item list-group-item-action list-group-item-light p-3"
-					href="#!">Profile</a> <a
 					class="list-group-item list-group-item-action list-group-item-light p-3"
 					href="#!">Status</a>
 			</div>

@@ -25,5 +25,6 @@
 	<mappers>
 		<mapper resource="co/yedam/emp/mapper/EmpMapper.xml" />
 		<mapper class="co.yedam.member.mapper.MemberMapper"/>
+
 	</mappers>
 </configuration>
