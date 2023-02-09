@@ -8,6 +8,8 @@
 	</settings>
 	<typeAliases>
 		<typeAlias alias="NoticeVO" type="com.yedam.notice.vo.NoticeVO" />
+		<typeAlias alias="ReplyVO" type="com.yedam.notice.vo.ReplyVO" />  <!-- alias="ReplyVO" 이것만 쳐도 type="com.yedam.notice.vo.ReplyVO" 경로를 알 수 있음. -->
+		<typeAlias alias="MemberVO" type="com.yedam.member.vo.MemberVO" />
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -22,5 +24,6 @@
 	</environments>
 	<mappers>
 		<mapper class="com.yedam.notice.mapper.NoticeMapper" />
+		<mapper class="com.yedam.member.mapper.MemberMapper" />
 	</mappers>
 </configuration>

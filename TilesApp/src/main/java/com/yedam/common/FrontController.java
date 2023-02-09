@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yedam.member.command.Login;
+import com.yedam.member.command.LoginForm;
+import com.yedam.member.command.Logout;
+import com.yedam.member.command.ModifyMember;
+import com.yedam.member.command.myPageForm;
 import com.yedam.notice.command.*;
 
 public class FrontController extends HttpServlet {
@@ -34,6 +39,17 @@ public class FrontController extends HttpServlet {
 		map.put("/noticeDetail.do", new NoticeDetail());
 		map.put("/noticeForm.do", new NoticeForm()); // 글등록화면.
 		map.put("/noticeAdd.do", new NoticeAdd()); // 글등록처리.
+		
+		//댓글.
+		map.put("/replyList.do", new ReplyList()); // 댓글목록.
+		map.put("/removeReply.do", new RemoveReply()); // 댓글삭제.
+		map.put("/addReply.do", new AddReply()); // 댓글등록.
+		//회원관련.
+		map.put("/loginForm.do", new LoginForm()); // 로그인페이지.
+		map.put("/login.do", new Login()); // 로그인처리.
+		map.put("/logout.do", new Logout()); // 로그아웃처리.
+		map.put("/myPage.do", new myPageForm()); // 마이페이지화면.
+		map.put("/modifyMember.do", new ModifyMember()); // 마이페이지수정처리.
 	}
 
 	@Override
@@ -57,6 +73,9 @@ public class FrontController extends HttpServlet {
 			//if문으로 .do가 들어오는 상황에 연결해줘야한다.
 		}else if(viewPage.endsWith(".do")) {
 			resp.sendRedirect(viewPage);
+		}else if (viewPage.endsWith(".json")) {
+			resp.setContentType("text/json;charset=UTF-8");
+			resp.getWriter().print(viewPage.substring(0, viewPage.length() - 5)); // .json 붙은걸 빼야해서 자른다.
 		}
 		
 	}
