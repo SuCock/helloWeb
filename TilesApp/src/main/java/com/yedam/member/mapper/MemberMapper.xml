@@ -11,7 +11,7 @@
 
 	<insert id="addMember" parameterType="MemberVO">
 		insert into
-		members(member_id, member_pw, member_name, member_phone, member_add,
+		members(member_id, member_pw, member_name, member_phone, member_addr,
 		responsibility, image)
 		values(#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberAddr},'user',#{image})
 	</insert>
@@ -26,9 +26,34 @@
 		select * from members where member_id=#{id}
 	</select>
 	<update id="updateMember" parameterType="MemberVO">
-		update members set
-		member_name=#{memberName}, member_pw=#{memberPw},
-		member_phone=#{memberPhone}, member_add=#{memberAddr} WHERE
+		update members
+		<set>
+			<if test="image != null">
+				image = #{image},
+			</if>
+			<if test="memberName != null">
+				member_name=#{memberName},
+			</if>
+			<if test="memberPw != null">
+				member_pw=#{memberPw},
+			</if>
+			<if test="memberPhone != null">
+				member_phone=#{memberPhone},
+			</if>
+			<if test="memberAddr != null">
+				member_addr=#{memberAddr},
+			</if>
+			<if test="responsibility != null">
+				responsibility=#{responsibility}
+			</if>
+		</set>
+		WHERE
 		member_id=#{memberId}
+		<!-- member_name=#{memberName}, member_pw=#{memberPw}, member_phone=#{memberPhone}, 
+			member_add=#{memberAddr} WHERE member_id=#{memberId} -->
 	</update>
+	<delete id="deleteMember" parameterType="string">
+	DELETE FROM members
+		WHERE member_id=#{mid}
+	</delete>
 </mapper>

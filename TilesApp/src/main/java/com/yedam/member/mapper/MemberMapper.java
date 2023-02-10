@@ -10,6 +10,7 @@ public interface MemberMapper {
 	public List<MemberVO> memberList(); // 회원전체목록. 
 	public MemberVO getMember(String id); //회원정보조회용.
 	public int updateMember(MemberVO member); // 회원정보수정.
+	public int deleteMember(String mid); // 회원삭제.
 	//조회 업데이트 입력 3개의 기능을 써야할 때
 	//조회 업데이트 2개의 기능
 	//조회 입력.. 중복이 많아진다

@@ -11,10 +11,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yedam.member.command.AddMember;
+import com.yedam.member.command.ImageUpload;
 import com.yedam.member.command.Login;
 import com.yedam.member.command.LoginForm;
 import com.yedam.member.command.Logout;
+import com.yedam.member.command.MemberList;
+import com.yedam.member.command.MemberManager;
 import com.yedam.member.command.ModifyMember;
+import com.yedam.member.command.RemoveMember;
+import com.yedam.member.command.UpdateMember;
 import com.yedam.member.command.myPageForm;
 import com.yedam.notice.command.*;
 
@@ -50,6 +56,14 @@ public class FrontController extends HttpServlet {
 		map.put("/logout.do", new Logout()); // 로그아웃처리.
 		map.put("/myPage.do", new myPageForm()); // 마이페이지화면.
 		map.put("/modifyMember.do", new ModifyMember()); // 마이페이지수정처리.
+		map.put("/imageUpload.do", new ImageUpload()); // 마이페이지이미지없로드.
+		
+		//관리자 회원관리.
+		map.put("/memberManageForm.do", new MemberManager()); // 회원관리페이지.
+		map.put("/memberList.do", new MemberList()); // 회원관리페이지-목록(json).
+		map.put("/addMember.do", new AddMember()); // 회원관리페이지-등록.
+		map.put("/removeMember.do", new RemoveMember()); // 회원관리페이지-삭제.
+		map.put("/updateMember.do", new UpdateMember()); // 회원관리페이지-수정.
 	}
 
 	@Override
