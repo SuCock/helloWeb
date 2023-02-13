@@ -13,8 +13,11 @@
 	</select>
 	<insert id="insertNotice" parameterType="NoticeVO"><!-- 반환되는 값은 자동으로 int로 된다 
 			-> resultType이 없어도 된다. parameterType은 가져올 매개값 -->
-		INSERT INTO tbl_notice(notice_id, notice_writer, notice_title,
-		notice_subject, attach_file) VALUES(notice_seq.nextval,
+		<selectKey keyProperty="noticeId" resultType="int"
+			order="BEFORE">
+			SELECT notice_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO tbl_notice(notice_id, notice_writer, notice_title, notice_subject, attach_file) VALUES(#{noticeId},
 		#{noticeWriter}, #{noticeTitle}, #{noticeSubject}, #{attachFile})
 	</insert>
 	<update id="updateNotice" parameterType="NoticeVO">
@@ -42,12 +45,14 @@
 		WHERE reply_id=#{rid}
 	</delete>
 	<insert id="insertReply" parameterType="ReplyVO">
-		<selectKey keyProperty="replyId" resultType="int" order="BEFORE">
+		<selectKey keyProperty="replyId" resultType="int"
+			order="BEFORE">
 			SELECT reply_seq.nextval FROM dual
 		</selectKey> <!-- 먼저 replyId값을 생성해서 ReplyVO도 값을 미리 replyId에 값을 넣어준다. -->
 		INSERT INTO
 		tbl_reply(reply_id, notice_id, reply_title, reply_subject,
-		reply_writer, reply_date) VALUES(#{replyId}, #{noticeId}, #{replyTitle},
+		reply_writer, reply_date) VALUES(#{replyId}, #{noticeId},
+		#{replyTitle},
 		#{replySubject},#{replyWriter},#{replyDate})
 	</insert>
 </mapper>

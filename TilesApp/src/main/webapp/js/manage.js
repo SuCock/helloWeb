@@ -50,6 +50,8 @@ function makeRow(member = {}) { //  member값을 하나 가져온다. ={}은 배
 			$('<td />').append($('<input />').val(resp)),
 			$('<td />').append($('<button class="btn btn-primary" onclick="updateMemberFnc(event)">수정</button>'))
 		)
+		nTr = $('#template tr').clone(true);
+		nTr.find('input.name').val(name);
 		// 새로운 tr로 가존 tr을 대신.
 		$(this).replaceWith(nTr);
 	})
@@ -92,7 +94,14 @@ function deleteMemberFnc(e) {
 } // end of deleteFnc.
 
 $(document).ready(function() {   // document의 사용준비가 되어지면 실행. 실행시점 때문에. 페이지를 먼저 다 읽고 스크립트 실행.
-
+	
+	let clone = $('#template').clone(true);
+	console.log(clone.find('tr'));
+	let tr = clone.find('tr');
+	tr.find('.name').val('test'); // 클래스가 네임인 tr에 test내용을 넣겠다.
+	$('#list').append(tr);
+	
+	
 	// 목록가져오는 Ajax 호출.
 	console.log($('#list'));
 	$.ajax({
